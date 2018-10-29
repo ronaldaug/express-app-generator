@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Express App Generator</title>
+    <link rel="stylesheet" href="skeleton.min.css">
+    <style>
+        body{margin:40px}.mongo-setup p{font-size:12px;margin:0;}.readme{display:none}ul.result{margin-top:10px;border-top:1px solid #eee}ul.result li{padding:10px;border-bottom:1px solid #eee;list-style:none}ul.result li a{padding:0 6px;float:right;border:1px solid red;border-radius:4px;color:red;outline:0;text-decoration:none}textarea#export-data{width:100%;height:80vh;}textarea#description{width:100%;}#routeGenForm{display:none;}
+    </style>
+</head>
+<body>
+    <div class="row">
+            <div class="columns six">
+                    <form id="expressForm">
+                        <h2>Express app set up (API)</h2>
+                        <p><i>( with jsonwebtoken, cors, joi, bcrypt and mongojs)</i></p>
+                        <div class="input-wrap">
+                            <label for="app-name">App Name</label>
+                            <input type="text" id="app-name" name="app-name" required>
+                        </div>
+                        <div class="input-wrap">
+                            <label for="description">App Description</label>
+                            <textarea name="description" id="description" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="input-wrap">
+                                    <label for="port-num">Port Number</label>
+                                    <input type="text" id="port-num" value="8082" name="port-num">
+                        </div>
+                        <div class="input-wrap">
+                                        Add Cors for allow cross-origin
+                                        <input type="radio" value="y" name="cors"> Yes 
+                                        <input type="radio" value="n" name="cors" checked> No
+                        </div>
+                        <div class="input-wrap">
+                            Add Mongojs
+                            <input type="radio" value="y" name="mongojs"> Yes 
+                            <input type="radio" value="n" name="mongojs" checked> No
+                        </div>
+                        <div class="input-wrap">
+                                Add Auth System
+                                <input type="radio" value="y" name="auth-system"> Yes 
+                                <input type="radio" value="n" name="auth-system" checked> No
+                        </div>
+                    <button type="submit" class="button button-primary">Continue</button>
+                    </form>
+                <form id="routeGenForm">
+                    <a class="button" onclick="backToApp()">Back</a>
+                    <h2>Generate Routes</h2>
+                    <div class="input-wrap">
+                            <label for="route-name">Route Name</label>
+                            <input type="text" id="route-name" name="route-name">
+                    </div>
+                    <div class="input-wrap protectRoute">
+                            Protect route or not 
+                            <input type="radio" id="auth" value="Auth" name="auth"> Yes
+                            <input type="radio" id="no-auth" value="noAuth" name="auth" checked> No 
+                    </div>
+                    <div class="input-wrap">
+                           Method for this route = 
+                            <input type="radio" id="get" value="get" name="method" checked> Get 
+                            <input type="radio" id="post" value="post" name="method"> Post
+                    </div>
+                    <button type="submit" class="button button-primary">Generate Route</button>
+                    <a style="float:right" onclick="appendInfoInReadMe()" class="button button-primary">Finish</a>
+                    <ul class="result"></ul>
+                </form>
+                <div class="readme">
+                        <a class="button" onclick="backToRoute()">Back</a>
+                        <h4>Readme</h4>
+                        <ul class="readme-steps">
+                            <li>1- Download and extract zip file</li> 
+                            <li>2- cd into download folder</li> 
+                            <li>3- npm install</li> 
+                            <li>4- npm update -D</li>
+                            <li>5- npm run start</li>
+                        </ul>
+                        <hr>
+                        <p>Update Dependencies (Optional)</p>
+                        <p><small>Note: If you really want every dependencis to be updated, run the below commands.</small></p>
+                        <ul style="font-size:12px;">
+                            <li>1 - npm i -g npm-check-updates</li>
+                            <li>2 - ncu -u</li>
+                        </ul>
+                        <hr>
+                        <h4>Your app routes</h4>
+                        <ul class="routeInfo"></ul>
+                        <div class="auth-crid"></div>
+        
+                    </div>
+            </div>
+            <div class="columns six">
+                <button class="button button-primary" onclick="downData()">Download</button>
+                <button class="button button-primary" onclick="clearDb()">Clear</button>
+                <textarea name="export-data" id="export-data"></textarea>
+            </div>
+    </div>
+
+    <script src="dexie.min.js"></script>
+    <script src="filesaver.min.js"></script>
+    <script src="jszip.min.js"></script>
+    <!-- <script src="express-gen.min.js"></script> -->
+    <script src="develop.js"></script>
+</body>
+</html>
