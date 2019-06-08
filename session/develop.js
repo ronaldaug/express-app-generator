@@ -7,14 +7,19 @@
         libraries: "id,port,mongojs,auth"
         });
 
+       // Declare virables
+        const routeGenForm = document.querySelector('#routeGenForm');
+        const expressForm = document.querySelector('#expressForm');
+        const routeInfo = document.querySelector('.routeInfo');
+        const ReadMe = document.querySelector('.readme');
+        const authCrid = document.querySelector('.auth-crid');
+        const resultBox = document.querySelector('.result');
 
-        var routeGenForm = document.querySelector('#routeGenForm');
-        var expressForm = document.querySelector('#expressForm');
-        var routeInfo = document.querySelector('.routeInfo');
-        var ReadMe = document.querySelector('.readme');
-        var authCrid = document.querySelector('.auth-crid');
-        var resultBox = document.querySelector('.result');
-        var exportData = '';
+        const getDes = document.querySelector('#description').value;
+        const getPort = document.querySelector('#port-num').value;
+        const getMongoJS = document.querySelector('input[name="mongojs"]:checked').value;
+        const getAuth = document.querySelector('input[name="auth-system"]:checked').value;
+        // var exportData = '';
 
         function backToRoute(){
             routeGenForm.style.display = 'block';
@@ -27,13 +32,12 @@
 
 
         // Add this data at the beginning of app.js
-        var introData = `const express = require('express');
-        const app = express();
-        const isLoggedIn = false;
-        `;
+        let introData = `const express = require('express');
+        const app = express(); `;
 
-        var allDefaultLib = `// All default Libraries
+        let allDefaultLib = `// All default Libraries
         const path= require('path'); 
+        // EJS set up
         const expressLayouts = require('express-ejs-layouts') 
         app.set('views',path.join(__dirname,'views'));
         app.set('view engine', 'ejs');
@@ -41,8 +45,7 @@
         `;
 
         // Add this data at the end of app.js
-        var endingData = `
-
+        let endingData = `
         app.get('/*', function(req, res) {
             res.status(404).send('404 not found!', 404);
         });
@@ -110,10 +113,6 @@
            alert('App Name length must be less than 20 charactors')
            return;
        }
-       let getDes = document.querySelector('#description').value;
-       let getPort = document.querySelector('#port-num').value;
-       let getMongoJS = document.querySelector('input[name="mongojs"]:checked').value;
-       let getAuth = document.querySelector('input[name="auth-system"]:checked').value;
        
        // Add data on init
        const initLib = {
@@ -124,12 +123,13 @@
                 auth:getAuth
                 };
         db.libraries.update(1,initLib);
-
+         
         const authSystemFun = `app.use(session({
             secret: 'secretkeyblabla',
             resave: true,
             saveUninitialized: false
         }))
+
         //support parsing of application/x-www-form-urlencoded post data
         app.use(bodyParser.urlencoded({ extended: true }));
         // Check Auth
@@ -353,9 +353,9 @@ let applicationName = lib[0].appName.replace(/\s+/g, '-').toLowerCase();
     ${session}
     ${bodyparser}
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
-    "nodemon": "^1.18.5"
+    "nodemon": "^1.19.1"
     }
 }
 `;
@@ -414,7 +414,8 @@ let applicationName = lib[0].appName.replace(/\s+/g, '-').toLowerCase();
             createRoutes.then(()=>{
                 zip.generateAsync({type:"blob"})
                 .then(function(content) {
-                saveAs(content, "exporteddata.zip");
+                const timeStamp = new Date();
+                saveAs(content, `${Date.parse(timeStamp)}-export.zip`);
             })
             
         });

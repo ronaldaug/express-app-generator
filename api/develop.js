@@ -10,7 +10,6 @@
         // Add this data at the beginning of app.js
         var introData = `const express = require('express');
         const app = express();
-        const isLoggedIn = false;
         `;
 
         var allDefaultLib = `// All default Libraries
@@ -64,7 +63,6 @@
         var readMeSteps = document.querySelector('.readme-steps');
         var expressForm = document.querySelector('#expressForm');
         var resultBox = document.querySelector('.result');
-        var exportData = '';
 
         function backToRoute(){
             routeGenForm.style.display = 'block';
@@ -284,7 +282,8 @@
         const mongojs = require('mongojs')
         // add mogondb URL here
         // var db = mongojs('mongodb://username:password@ds434534.mlab.com:34534/databasename', ['users']);
-        var ObjectId = '' // remove this and use "var ObjectId = db.ObjectId;"
+        // add this after you added mongodb URL
+        // var ObjectId = db.ObjectId;"
         `;
         let mongoDB = getMongoJS  === 'y'?monG:'';
         
@@ -334,7 +333,6 @@
         resData.forEach(data=>{
             var authVal = data.auth === 'Auth'?'Auth,':'';
             var authMsg = data.auth === 'Auth'?`'Successfully authenticated! Welcome to /${data.route} route. You can response JSON API object here!'`:`'Welcome to /${data.route} route.'`;
-            var indexVal = data.auth === 'Auth'?`res.send('index',{'isLogged':true});`:`res.send('Welcome, this is express main page!');`;
         routeData += `
 
         // ${data.route} page
@@ -418,11 +416,11 @@
             }
             db.libraries.toArray().then(lib =>{
 
-let Pcors = lib[0].cors === 'y'? `"cors": "^2.8.4",`:'';
+let Pcors = lib[0].cors === 'y'? `"cors": "^2.8.5",`:'';
 let Pmongojs = lib[0].mongojs === 'y'? `"mongojs": "^2.6.0",`:'';
-let Pjsonwebtoken = lib[0].auth === 'y'? `"jsonwebtoken": "^8.3.0",`:'';
-let Pjoi = lib[0].auth === 'y'? `"joi": "^14.0.1",`:'';
-let Pbcrypt = lib[0].auth === 'y'? `"bcrypt": "^3.0.2",`:'';
+let Pjsonwebtoken = lib[0].auth === 'y'? `"jsonwebtoken": "^8.5.1",`:'';
+let Pjoi = lib[0].auth === 'y'? `"@hapi/joi": "^15.0.3",`:'';
+let Pbcrypt = lib[0].auth === 'y'? `"bcrypt": "^3.0.6",`:'';
 let applicationName = lib[0].appName.replace(/\s+/g, '-').toLowerCase();
 
 
@@ -443,8 +441,8 @@ let applicationName = lib[0].appName.replace(/\s+/g, '-').toLowerCase();
     ${Pjoi}
     ${Pjsonwebtoken}
     ${Pbcrypt}
-    "express": "^4.16.4",
-    "nodemon": "^1.18.5"
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
     }
 }
 `;
@@ -455,7 +453,8 @@ let applicationName = lib[0].appName.replace(/\s+/g, '-').toLowerCase();
 
             zip.generateAsync({type:"blob"})
             .then(function(content) {
-            saveAs(content, "exporteddata.zip");            
+                const timeSt = new Date();
+                saveAs(content, `${Date.parse(timeSt)}.zip`);            
         });
     })
 }
