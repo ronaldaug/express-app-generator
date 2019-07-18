@@ -14,12 +14,7 @@
         const ReadMe = document.querySelector('.readme');
         const authCrid = document.querySelector('.auth-crid');
         const resultBox = document.querySelector('.result');
-
-        const getDes = document.querySelector('#description').value;
-        const getPort = document.querySelector('#port-num').value;
-        const getMongoJS = document.querySelector('input[name="mongojs"]:checked').value;
-        const getAuth = document.querySelector('input[name="auth-system"]:checked').value;
-        // var exportData = '';
+       // var exportData = '';
 
         function backToRoute(){
             routeGenForm.style.display = 'block';
@@ -114,6 +109,11 @@
            return;
        }
        
+       const getDes = document.querySelector('#description').value;
+       const getPort = document.querySelector('#port-num').value;
+       const getMongoJS = document.querySelector('input[name="mongojs"]:checked').value;
+       const getAuth = document.querySelector('input[name="auth-system"]:checked').value;
+
        // Add data on init
        const initLib = {
                 appName:getAppName,
